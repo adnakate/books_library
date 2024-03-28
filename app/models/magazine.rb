@@ -5,7 +5,7 @@ class Magazine < ApplicationRecord
                         message: Proc.new { |record, data| "You must provide #{data[:attribute]}" }
   validates :quantity, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   
-  paginates_per 10
+  paginates_per PER_PAGE
 
   def decrease_quantity
     update(quantity: quantity - 1)

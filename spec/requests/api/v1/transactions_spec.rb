@@ -109,7 +109,7 @@ RSpec.describe "Api::V1::Transactions", type: :request do
         item_type: 'book'
       }
       expect(response).to have_http_status :unprocessable_entity
-      expect(JSON.parse(response.body)['errors']).to eq('User must suscribe first')
+      expect(JSON.parse(response.body)['errors']).to eq(USER_MUST_SUBSCRIBE)
     end
 
     it "should return Exceeded monthly transaction limit" do
@@ -129,7 +129,7 @@ RSpec.describe "Api::V1::Transactions", type: :request do
         item_type: 'book'
       }
       expect(response).to have_http_status :unprocessable_entity
-      expect(JSON.parse(response.body)['errors']).to eq('Exceeded monthly transaction limit')
+      expect(JSON.parse(response.body)['errors']).to eq(EXCEEDED_MONTHLY_TRANSACTIONS)
     end
 
     it "should return user must suscribe first" do
@@ -143,7 +143,7 @@ RSpec.describe "Api::V1::Transactions", type: :request do
         item_type: 'book'
       }
       expect(response).to have_http_status :unprocessable_entity
-      expect(JSON.parse(response.body)['errors']).to eq('Gold plan allows only 3 books and 1 magazine')
+      expect(JSON.parse(response.body)['errors']).to eq(GOLD_PLAN_THREE_BOOKS_ONE_MAGAZINE)
     end
 
     it "should return user must suscribe first" do
@@ -154,7 +154,7 @@ RSpec.describe "Api::V1::Transactions", type: :request do
         item_type: 'magazine'
       }
       expect(response).to have_http_status :unprocessable_entity
-      expect(JSON.parse(response.body)['errors']).to eq('Gold plan allows only 1 magazine')
+      expect(JSON.parse(response.body)['errors']).to eq(GOLD_PLAN_ONE_MAGAZINE)
     end
 
     it "should return user below 18 are not allowed crime genre" do
@@ -165,7 +165,7 @@ RSpec.describe "Api::V1::Transactions", type: :request do
         item_type: 'book'
       }
       expect(response).to have_http_status :unprocessable_entity
-      expect(JSON.parse(response.body)['errors']).to eq('You must be above 18 years')
+      expect(JSON.parse(response.body)['errors']).to eq(SHOULD_BE_ADULT)
     end
   end
 

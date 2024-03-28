@@ -17,9 +17,9 @@ class User < ApplicationRecord
   end
 
   def can_order_item?(item)
-    return [false, "User must suscribe first"] if !current_subscription.present?
-    return [false, "You must be above 18 years"] if age < 18 && item.genre == 'crime'
-    return [false, "Exceeded monthly transaction limit"] if total_transactions >= 10
+    return [false, USER_MUST_SUBSCRIBE] if !current_subscription.present?
+    return [false, SHOULD_BE_ADULT] if age < 18 && item.genre == 'crime'
+    return [false, EXCEEDED_MONTHLY_TRANSACTIONS] if total_transactions >= 10
     
     case current_subscription.subscription_plan.category
     when "silver"
@@ -58,35 +58,35 @@ class User < ApplicationRecord
 
   def can_order_silver_plan?(item)
     if item.is_a?(Magazine)
-      [false, "Silver plan does not allow magazine"]
+      [false, SILVER_PLAN_NO_MAGAZINE]
     elsif borrowed_books >= 2
-      [false, "Silve plan allows only 2 books"]
+      [false, SILVER_PLAN_TWO_BOOKS_ONLY]
     else
-      [true, ""]
+      [true, EMPTY_STRING]
     end 
   end
 
   def can_order_gold_plan?(item)
     if borrowed_books >= 3 && borrowed_magazines >= 1
-      [false, "Gold plan allows only 3 books and 1 magazine"]
+      [false, GOLD_PLAN_THREE_BOOKS_ONE_MAGAZINE]
     elsif borrowed_books >= 3 && item.is_a?(Book) 
-      [false, "Gold plan allows only 3 books"]
+      [false, GOLD_PLAN_THREE_BOOKS]
     elsif borrowed_magazines >= 1 && item.is_a?(Magazine)
-      [false, "Gold plan allows only 1 magazine"]
+      [false, GOLD_PLAN_ONE_MAGAZINE]
     else
-      [true, ""]
+      [true, EMPTY_STRING]
     end
   end
 
   def can_order_platinum_plan?(item)
     if borrowed_books >= 4 && borrowed_magazines >= 2
-      [false, "Platinum plan allows only 4 books and 2 magazines"]
+      [false, PLATINUM_PLAN_FOUR_BOOKS_TWO_MAGAZINES]
     elsif borrowed_books >= 4 && item.is_a?(Book) 
-      [false, "Platinum plan allows only 4 books"]
+      [false, PLATINUM_PLAN_FOUR_BOOKS]
     elsif borrowed_magazines >= 2 && item.is_a?(Magazine)
-      [false, "Platinum plan allows only 2 magazines"]
+      [false, PLATINUM_PLAN_TWO_MAGAZINES]
     else
-      [true, ""]
+      [true, EMPTY_STRING]
     end
   end
 end

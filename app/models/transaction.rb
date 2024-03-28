@@ -6,7 +6,7 @@ class Transaction < ApplicationRecord
   after_create :decrease_quantity
   after_update :increase_quantity, if: :saved_change_to_returned_at?
 
-  paginates_per 10
+  paginates_per PER_PAGE
 
   def complete_transaction
     update(returned_at: Time.now)

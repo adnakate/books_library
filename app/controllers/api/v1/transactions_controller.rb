@@ -1,5 +1,4 @@
 class Api::V1::TransactionsController < ApplicationController
-  before_action :set_user
   before_action :validate_place_order_params, only: [:place_order]
   before_action :validate_return_item_params, only: [:return_items]
 
@@ -28,12 +27,6 @@ class Api::V1::TransactionsController < ApplicationController
   end
 
   private
-
-  def set_user
-    return render json: { errors: 'Enter email id' }, status: :unprocessable_entity if !params[:email].present?
-    @user = User.where(email: params[:email]).last
-    render json: { errors: 'Invalid email' }, status: :unprocessable_entity if !@user.present?
-  end
 
   def validate_place_order_params
     return render json: { errors: 'Enter item id' }, status: :unprocessable_entity if !params[:item_id].present?
